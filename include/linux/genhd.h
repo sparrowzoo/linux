@@ -104,19 +104,19 @@ struct partition_meta_info {
 };
 
 struct hd_struct {
-	sector_t start_sect;
+	sector_t start_sect; //磁盘中分区的起始扇区
 	/*
 	 * nr_sects is protected by sequence counter. One might extend a
 	 * partition while IO is happening to it and update of nr_sects
 	 * can be non-atomic on 32bit machines with 64bit sector_t.
 	 */
-	sector_t nr_sects;
+	sector_t nr_sects; //分区的长度（扇区数)
 	seqcount_t nr_sects_seq;
 	sector_t alignment_offset;
 	unsigned int discard_alignment;
 	struct device __dev;
 	struct kobject *holder_dir;
-	int policy, partno;
+	int policy,/*如果分区是只读的，则置为1，否则为0*/ partno /*磁盘中分区的相对索引*/;
 	struct partition_meta_info *info;
 #ifdef CONFIG_FAIL_MAKE_REQUEST
 	int make_it_fail;
@@ -192,13 +192,13 @@ struct gendisk {
 	 * helpers.
 	 */
 	struct disk_part_tbl __rcu *part_tbl;
-	struct hd_struct part0;
+	struct hd_struct part0;  //第一个分区
 
-	const struct block_device_operations *fops;
-	struct request_queue *queue;
+	const struct block_device_operations *fops; //块设备操作的方法
+	struct request_queue *queue;  //请求队列
 	void *private_data;
 
-	int flags;
+	int flags;  //GENHD_FL_UP & CHNHD_FL_REMOVEABLE
 	struct rw_semaphore lookup_sem;
 	struct kobject *slave_dir;
 

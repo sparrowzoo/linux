@@ -28,9 +28,9 @@
  * was unsigned short, but we might as well be ready for > 64kB I/O pages
  */
 struct bio_vec {
-	struct page	*bv_page;
-	unsigned int	bv_len;
-	unsigned int	bv_offset;
+	struct page	*bv_page;  //指向这个缓冲区所驻留的物理页面
+	unsigned int	bv_len; //这个缓冲区以字节为单位的大小
+	unsigned int	bv_offset;//缓冲区所驻留的页中以字节为单位的偏移量
 };
 
 struct bvec_iter {

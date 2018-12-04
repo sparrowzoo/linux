@@ -1855,17 +1855,17 @@ static inline unsigned int bio_integrity_bytes(struct blk_integrity *bi,
 #endif /* CONFIG_BLK_DEV_INTEGRITY */
 
 struct block_device_operations {
-	int (*open) (struct block_device *, fmode_t);
-	void (*release) (struct gendisk *, fmode_t);
+	int (*open) (struct block_device *, fmode_t); //打开
+	void (*release) (struct gendisk *, fmode_t); //关闭
 	int (*rw_page)(struct block_device *, sector_t, struct page *, unsigned int);
-	int (*ioctl) (struct block_device *, fmode_t, unsigned, unsigned long);
-	int (*compat_ioctl) (struct block_device *, fmode_t, unsigned, unsigned long);
+	int (*ioctl) (struct block_device *, fmode_t, unsigned, unsigned long);//控制
+	int (*compat_ioctl) (struct block_device *, fmode_t, unsigned, unsigned long);//控制
 	unsigned int (*check_events) (struct gendisk *disk,
 				      unsigned int clearing);
 	/* ->media_changed() is DEPRECATED, use ->check_events() instead */
-	int (*media_changed) (struct gendisk *);
+	int (*media_changed) (struct gendisk *);//检查可移动介质是否已经变化
 	void (*unlock_native_capacity) (struct gendisk *);
-	int (*revalidate_disk) (struct gendisk *);
+	int (*revalidate_disk) (struct gendisk *);//检查块设备是否持有有效数据
 	int (*getgeo)(struct block_device *, struct hd_geometry *);
 	/* this callback is with swap_lock and sometimes page table lock held */
 	void (*swap_slot_free_notify) (struct block_device *, unsigned long);

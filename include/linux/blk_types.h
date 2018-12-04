@@ -140,10 +140,11 @@ static inline void bio_issue_init(struct bio_issue *issue,
 /*
  * main unit of I/O for the block layer and lower layers (ie drivers and
  * stacking drivers)
+ * 块层及块层以下(比如驱动和驱动栈）的主要IO单元
  */
 struct bio {
 	struct bio		*bi_next;	/* request queue link */
-	struct gendisk		*bi_disk;
+	struct gendisk		*bi_disk;   /* 通用磁盘对象*/
 	unsigned int		bi_opf;		/* bottom bits req flags,
 						 * top bits REQ_OP. Use
 						 * accessors.
@@ -156,6 +157,7 @@ struct bio {
 
 	/* Number of segments in this BIO after
 	 * physical address coalescing is performed.
+	 * 结合后的片段数
 	 */
 	unsigned int		bi_phys_segments;
 
@@ -163,15 +165,15 @@ struct bio {
 	 * To keep track of the max segment size, we account for the
 	 * sizes of the first and last mergeable segments in this bio.
 	 */
-	unsigned int		bi_seg_front_size;
-	unsigned int		bi_seg_back_size;
+	unsigned int		bi_seg_front_size;//第一个可合并的段大小
+	unsigned int		bi_seg_back_size;//最后一个可合并段大小
 
 	struct bvec_iter	bi_iter;
 
 	atomic_t		__bi_remaining;
 	bio_end_io_t		*bi_end_io;
 
-	void			*bi_private;
+	void			*bi_private;  //所有数据
 #ifdef CONFIG_BLK_CGROUP
 	/*
 	 * Optional ioc and css associated with this bio.  Put on bio
